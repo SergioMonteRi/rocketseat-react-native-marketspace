@@ -1,12 +1,30 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar, StyleSheet } from 'react-native';
+
+import {
+ useFonts,
+ Karla_700Bold,
+ Karla_400Regular,
+} from "@expo-google-fonts/karla"
+
+import { config } from './config/gluestack-ui.config';
+import { GluestackUIProvider, Text } from '@gluestack-ui/themed';
 
 export default function App() {
+  const [isFontLoaded]= useFonts({
+    Karla_700Bold,
+    Karla_400Regular
+  })
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <GluestackUIProvider config={config}>
+        <StatusBar 
+          barStyle="light-content"
+          backgroundColor={'transparent'}
+          translucent
+          />
+
+        {isFontLoaded ? <Text color={"$blueLight"} fontSize={36}>Marketspace</Text> : <Text>Loading...</Text>}
+    </GluestackUIProvider>
   );
 }
 
