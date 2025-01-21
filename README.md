@@ -1,21 +1,13 @@
-# 🚀 Projeto Expo React Native
+<div style="display: inline_block"><br>
+  <img align="center" alt="Sergio-Ts" height="30" width="40" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/typescript/typescript-plain.svg">
+  <img align="center" alt="Sergio-ReactNative" height="30" width="40" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original.svg">
+  <img align="center" alt="Sergio-Figma" height="30" width="40" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/figma/figma-original.svg">
+</div>
+
+# Projeto Expo React Native
 
 Bem-vindo ao **Marketspace**, um aplicativo desenvolvido com **Expo** e **React Native**, projetado para fornecer facilidade de compra e vendas de itens usados. Este projeto foi inspirado no design disponível no [Figma](https://www.figma.com/design/Ny7u6CkvjsMrSS6FktasBP/Rocketseat---Marketspace?node-id=2-12&p=f&t=X3Pi24SvQVKQzUPN-0).
 
-## 📋 Índice
-
-- [Tecnologias Utilizadas](#tecnologias-utilizadas)
-- [Pré-requisitos](#pré-requisitos)
-- [Instalação](#instalação)
-  - [1. Criar o Projeto com Expo e Template TypeScript](#1-criar-o-projeto-com-expo-e-template-typescript)
-  - [2. Configurar Paths](#2-configurar-paths)
-  - [3. Instalar Fontes e Dependências](#3-instalar-fontes-e-dependências)
-  - [4. Configurar o Gluestack UI](#4-configurar-o-gluestack-ui)
-  - [5. Instalar Bibliotecas Adicionais](#5-instalar-bibliotecas-adicionais)
-- [Como Usar](#como-usar)
-- [Design](#design)
-- [Contribuição](#contribuição)
-- [Licença](#licença)
 
 ## 🔧 Tecnologias Utilizadas
 
