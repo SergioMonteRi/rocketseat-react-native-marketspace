@@ -37,9 +37,9 @@ Antes de começar, certifique-se de ter instalado em sua máquina:
 - **Expo CLI**: Instale globalmente com `npm install -g expo-cli` ou `yarn global add expo-cli`
 - **Git**: Para controle de versão
 
-## 🚀 Para utilizar as configuracoes base do projeto, siga os passos abaixo
+## 🚀 Configurações básicas do projeto
 
-Siga os passos abaixo para configurar a base utilizada neste projeto em sua máquina local.
+Caso queira utilizar as mesmas configs básicas deste projeto, para desenvolver o seu próprio, siga os passos abaixo:
 
 - npm install eslint @rocketseat/eslint-config -D
 - npx expo install expo-font @expo-google-fonts/
