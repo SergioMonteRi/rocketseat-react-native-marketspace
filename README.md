@@ -1,6 +1,6 @@
 # 🚀 Projeto Expo React Native
 
-Bem-vindo ao **Marketspace**, um aplicativo desenvolvido com **Expo** e **React Native**, projetado para auxiliar no tratamento da asma através do monitoramento e incentivo à atividade física. Este projeto foi inspirado no design disponível no [Figma](https://www.figma.com/design/Ny7u6CkvjsMrSS6FktasBP/Rocketseat---Marketspace?node-id=2-12&p=f&t=X3Pi24SvQVKQzUPN-0).
+Bem-vindo ao **Marketspace**, um aplicativo desenvolvido com **Expo** e **React Native**, projetado para fornecer facilidade de compra e vendas de itens usados. Este projeto foi inspirado no design disponível no [Figma](https://www.figma.com/design/Ny7u6CkvjsMrSS6FktasBP/Rocketseat---Marketspace?node-id=2-12&p=f&t=X3Pi24SvQVKQzUPN-0).
 
 ## 📋 Índice
 
@@ -25,6 +25,7 @@ Bem-vindo ao **Marketspace**, um aplicativo desenvolvido com **Expo** e **React 
 - **Axios**: Cliente HTTP para fazer requisições.
 - **Gluestack UI**: Biblioteca de componentes de UI.
 - **Phosphor React Native**: Conjunto de ícones.
+- **ESlint**: Padronização de código.
 - **Outras Dependências**: Várias bibliotecas para estilos, navegação, armazenamento, etc.
 
 ## 📋 Pré-requisitos
