@@ -37,13 +37,13 @@ Antes de começar, certifique-se de ter instalado em sua máquina:
 - **Expo CLI**: Instale globalmente com `npm install -g expo-cli` ou `yarn global add expo-cli`
 - **Git**: Para controle de versão
 
-## 🚀 Instalação
+## 🚀 Para utilizar as configuracoes base do projeto, siga os passos abaixo
 
-Siga os passos abaixo para configurar o projeto em sua máquina local.
+Siga os passos abaixo para configurar a base utilizada neste projeto em sua máquina local.
 
-### 1. Criar o Projeto com Expo e Template TypeScript
-
-Primeiro, crie um novo projeto Expo utilizando o template TypeScript:
-
-```bash
-npx create-expo-app --template blank-typescript
+- npm install eslint @rocketseat/eslint-config -D
+- npx expo install expo-font @expo-google-fonts/
+- npm i @gluestack-ui/themed@1.1.34 @gluestack-style/react@1.0.57 @gluestack-ui/config@1.1.19 --legacy-peer-deps
+- npx expo install react-native-svg
+- npx gluestack-ui-scripts eject-theme (se necessário configurar manualmente o tema do gluestack)
+- npm i phosphor-react-native
