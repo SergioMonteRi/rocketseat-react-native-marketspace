@@ -1,7 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Controller, useForm } from 'react-hook-form'
-import { useNavigation } from '@react-navigation/native'
 import { Box, Center, ScrollView, Text, VStack } from '@gluestack-ui/themed'
+import { useNavigation } from '@react-navigation/native'
 
 import { AuthNavigationRoutesProps } from '@routes/auth/types'
 
@@ -14,7 +14,11 @@ import { signInSchema } from './formSchema'
 
 import Logo from '@assets/logo.svg'
 
+import { gluestackUIConfig } from '../../../config/gluestack-ui.config'
+
 export const SignIn = () => {
+  const backGroundColor = gluestackUIConfig.tokens.colors.gray7
+
   const navigator = useNavigation<AuthNavigationRoutesProps>()
 
   const {
@@ -34,7 +38,9 @@ export const SignIn = () => {
   }
 
   return (
-    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+    <ScrollView
+      contentContainerStyle={{ flexGrow: 1, backgroundColor: backGroundColor }}
+    >
       <VStack bg={'$gray6'} p={'$10'} pb={'$16'} rounded={'$3xl'}>
         <Center pt={'$20'}>
           <Logo />
@@ -53,7 +59,7 @@ export const SignIn = () => {
           </Text>
         </Center>
 
-        <Box gap={'$5'} mt={'$16'}>
+        <Box gap={'$4'} mt={'$16'}>
           <Text
             mt={'$4.5'}
             fontSize={'$sm'}
@@ -108,7 +114,7 @@ export const SignIn = () => {
         </Text>
 
         <Button
-          title={'Cadastre-se'}
+          title={'Crar uma conta'}
           customVariant={'secondary'}
           onPress={handleNewAccount}
         />

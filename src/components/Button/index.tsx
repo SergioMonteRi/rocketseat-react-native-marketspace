@@ -29,14 +29,20 @@ export const Button = (props: ButtonProps) => {
     <GluestackButton
       h={'$11'}
       w={'$full'}
-      rounded={'$sm'}
+      rounded={'$md'}
       borderWidth={'$0'}
       disabled={isLoading}
       bg={backgroundColor}
       $active-bg={activeBackgroundColor}
       {...rest}
     >
-      {isLoading ? <ButtonSpinner /> : <Text color={textColor}>{title}</Text>}
+      {isLoading ? (
+        <ButtonSpinner />
+      ) : (
+        <Text color={textColor} fontFamily={'$heading'}>
+          {title}
+        </Text>
+      )}
     </GluestackButton>
   )
 }
