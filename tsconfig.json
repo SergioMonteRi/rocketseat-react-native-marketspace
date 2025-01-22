@@ -3,6 +3,7 @@
   "compilerOptions": {
     "strict": true,
     "paths": {
+      "@api/*": ["./src/api/*"],
       "@dtos/*": ["./src/dtos/*"],
       "@assets/*": ["./src/assets/*"],
       "@components/*": ["./src/components/*"],

@@ -14,7 +14,7 @@ export const Input = (props: InputProps) => {
   const isInvalid = !!errorMessage
 
   return (
-    <FormControl isInvalid={isInvalid} mb={'$2'}>
+    <FormControl isInvalid={isInvalid} mb={'$1'}>
       <GlueStackInput
         h={'$11'}
         w={'$full'}

@@ -1,3 +1,6 @@
+import { useState } from 'react'
+import * as FileSystem from 'expo-file-system'
+import * as ImagePicker from 'expo-image-picker'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Box, Center, ScrollView, Text, VStack } from '@gluestack-ui/themed'
@@ -13,9 +16,13 @@ import Logo from '@assets/logo.svg'
 import { Input } from '@components/Input'
 import { useNavigation } from '@react-navigation/native'
 import { AuthNavigationRoutesProps } from '@routes/auth/types'
+import { api } from '@api/api'
 
 export const SignUp = () => {
   const navigator = useNavigation<AuthNavigationRoutesProps>()
+
+  const [photoURI, setPhotoURI] = useState<string | null>(null)
+  const [photoFile, setPhotoFile] = useState<File | null>(null)
 
   const {
     control,
@@ -29,8 +36,72 @@ export const SignUp = () => {
     navigator.navigate('signIn')
   }
 
-  const onSubmit = (data: SignUpFormData) => {
-    console.log(data)
+  const updateUserProfilePhoto = async () => {
+    try {
+      const selectedPhoto = await ImagePicker.launchImageLibraryAsync({
+        quality: 1,
+        aspect: [4, 4],
+        allowsEditing: true,
+        mediaTypes: ['images'],
+        base64: false,
+      })
+
+      if (selectedPhoto.canceled) {
+        return
+      }
+
+      const photoURI = selectedPhoto.assets[0].uri
+      setPhotoURI(photoURI)
+
+      if (photoURI) {
+        const photoInfo = (await FileSystem.getInfoAsync(photoURI)) as {
+          size: number
+        }
+
+        if (photoInfo?.size && photoInfo.size / 1024 / 1024 > 5) {
+          console.log('photo is too big')
+          return
+        }
+
+        const photoExtension = photoURI.split('.').pop()
+        const photoType = selectedPhoto.assets[0].type
+
+        const photoFile = {
+          uri: photoURI,
+          type: `${photoType}/${photoExtension}`,
+          name: `photo.${photoExtension}`,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } as any
+
+        setPhotoFile(photoFile)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const onSubmit = async (data: SignUpFormData) => {
+    if (!photoFile) {
+      console.log('photo is required')
+      return
+    }
+
+    const formData = new FormData()
+    formData.append('tel', data.tel)
+    formData.append('name', data.name)
+    formData.append('email', data.email)
+    formData.append('avatar', photoFile)
+    formData.append('password', data.password)
+
+    try {
+      await api.post('/users', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
@@ -54,17 +125,21 @@ export const SignUp = () => {
           </Text>
         </Center>
 
-        <Center mt={'$8'} rowGap={'$4'}>
-          <UserPhotoEdit />
+        <Center mt={'$8'} rowGap={'$3'}>
+          <UserPhotoEdit
+            photoURI={photoURI}
+            updateUserProfilePhoto={updateUserProfilePhoto}
+          />
 
           <Controller
             control={control}
             name={'name'}
-            render={({ field }) => (
+            render={({ field: { onChange, value } }) => (
               <Input
+                value={value}
                 placeholder={'Nome'}
+                onChangeText={onChange}
                 errorMessage={errors.name?.message}
-                {...field}
               />
             )}
           />
@@ -72,11 +147,12 @@ export const SignUp = () => {
           <Controller
             control={control}
             name={'email'}
-            render={({ field }) => (
+            render={({ field: { onChange, value } }) => (
               <Input
+                value={value}
                 placeholder={'E-mail'}
+                onChangeText={onChange}
                 errorMessage={errors.email?.message}
-                {...field}
               />
             )}
           />
@@ -84,11 +160,12 @@ export const SignUp = () => {
           <Controller
             control={control}
             name={'tel'}
-            render={({ field }) => (
+            render={({ field: { onChange, value } }) => (
               <Input
+                value={value}
+                onChangeText={onChange}
                 placeholder={'Telefone'}
                 errorMessage={errors.tel?.message}
-                {...field}
               />
             )}
           />
@@ -96,12 +173,13 @@ export const SignUp = () => {
           <Controller
             control={control}
             name={'password'}
-            render={({ field }) => (
+            render={({ field: { onChange, value } }) => (
               <Input
+                value={value}
                 placeholder={'Senha'}
+                onChangeText={onChange}
                 errorMessage={errors.password?.message}
                 secureTextEntry
-                {...field}
               />
             )}
           />
@@ -109,12 +187,13 @@ export const SignUp = () => {
           <Controller
             control={control}
             name={'confirmPassword'}
-            render={({ field }) => (
+            render={({ field: { onChange, value } }) => (
               <Input
+                value={value}
+                onChangeText={onChange}
                 placeholder={'Confirme a senha'}
                 errorMessage={errors.confirmPassword?.message}
                 secureTextEntry
-                {...field}
               />
             )}
           />

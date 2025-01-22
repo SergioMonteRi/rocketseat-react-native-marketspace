@@ -2,36 +2,12 @@ import { Edit2 } from 'lucide-react-native'
 import { TouchableOpacity } from 'react-native'
 import { Box, Center, Icon, Image } from '@gluestack-ui/themed'
 
-import * as ImagePicker from 'expo-image-picker'
+import { UserPhotoEditProps } from './types'
 
 import defaultUserPhoto from '@assets/defaultUserPhoto.png'
-import { useState } from 'react'
 
-export const UserPhotoEdit = () => {
-  const [photoURI, setPhotoURI] = useState<string | null>(null)
-
-  const updateUserProfilePhoto = async () => {
-    try {
-      const selectedPhoto = await ImagePicker.launchImageLibraryAsync({
-        quality: 1,
-        aspect: [4, 4],
-        allowsEditing: true,
-        mediaTypes: ['images'],
-      })
-
-      if (selectedPhoto.canceled) {
-        return
-      }
-
-      const photoURI = selectedPhoto.assets[0].uri
-
-      setPhotoURI(photoURI)
-
-      console.log('photoURI', photoURI)
-    } catch (error) {
-      console.log(error)
-    }
-  }
+export const UserPhotoEdit = (props: UserPhotoEditProps) => {
+  const { photoURI, updateUserProfilePhoto } = props
 
   return (
     <Box>
