@@ -1,17 +1,22 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Controller, useForm } from 'react-hook-form'
+import { useNavigation } from '@react-navigation/native'
 import { Box, Center, ScrollView, Text, VStack } from '@gluestack-ui/themed'
+
+import { AuthNavigationRoutesProps } from '@routes/auth/types'
 
 import { Input } from '@components/Input'
 import { Button } from '@components/Button'
 
-import { signInSchema } from './formSchema'
-
 import { SignInFormData } from './types'
+
+import { signInSchema } from './formSchema'
 
 import Logo from '@assets/logo.svg'
 
 export const SignIn = () => {
+  const navigator = useNavigation<AuthNavigationRoutesProps>()
+
   const {
     control,
     handleSubmit,
@@ -19,6 +24,10 @@ export const SignIn = () => {
   } = useForm<SignInFormData>({
     resolver: yupResolver(signInSchema),
   })
+
+  const handleNewAccount = () => {
+    navigator.navigate('signUp')
+  }
 
   const onSubmit = (data: SignInFormData) => {
     console.log(data)
@@ -88,7 +97,7 @@ export const SignIn = () => {
         <Button title={'Entrar'} mt={'$11'} onPress={handleSubmit(onSubmit)} />
       </VStack>
 
-      <Center p={'$10'} flex={1} rowGap={'$4'}>
+      <Center p={'$10'} flex={1} rowGap={'$4'} bg={'$gray7'}>
         <Text
           fontSize={'$sm'}
           color={'$gray2'}
@@ -98,7 +107,11 @@ export const SignIn = () => {
           Ainda não tem acesso?
         </Text>
 
-        <Button title={'Cadastre-se'} customVariant={'secondary'} />
+        <Button
+          title={'Cadastre-se'}
+          customVariant={'secondary'}
+          onPress={handleNewAccount}
+        />
       </Center>
     </ScrollView>
   )

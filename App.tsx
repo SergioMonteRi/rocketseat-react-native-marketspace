@@ -10,7 +10,7 @@ import { GluestackUIProvider, Text } from '@gluestack-ui/themed'
 
 import { config } from './config/gluestack-ui.config'
 
-import { SignIn } from '@screens/SignIn'
+import { Routes } from '@routes/index'
 
 export default function App() {
   const [isFontLoaded] = useFonts({
@@ -26,7 +26,7 @@ export default function App() {
         translucent
       />
 
-      {isFontLoaded ? <SignIn /> : <Text>Loading...</Text>}
+      {isFontLoaded ? <Routes /> : <Text>Loading...</Text>}
     </GluestackUIProvider>
   )
 }
