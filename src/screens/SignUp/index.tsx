@@ -43,7 +43,6 @@ export const SignUp = () => {
         aspect: [4, 4],
         allowsEditing: true,
         mediaTypes: ['images'],
-        base64: false,
       })
 
       if (selectedPhoto.canceled) {
