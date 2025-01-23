@@ -1,12 +1,14 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Controller, useForm } from 'react-hook-form'
-import { Box, Center, ScrollView, Text, VStack } from '@gluestack-ui/themed'
 import { useNavigation } from '@react-navigation/native'
+import { Box, Center, ScrollView, Text, VStack } from '@gluestack-ui/themed'
 
-import { AuthNavigationRoutesProps } from '@routes/auth/types'
+import { useAuth } from '@hooks/useAuth'
 
 import { Input } from '@components/Input'
 import { Button } from '@components/Button'
+
+import { AuthNavigationRoutesProps } from '@routes/auth/types'
 
 import { SignInFormData } from './types'
 
@@ -19,6 +21,7 @@ import { gluestackUIConfig } from '../../../config/gluestack-ui.config'
 export const SignIn = () => {
   const backGroundColor = gluestackUIConfig.tokens.colors.gray7
 
+  const { isSigningIn, signIn } = useAuth()
   const navigator = useNavigation<AuthNavigationRoutesProps>()
 
   const {
@@ -33,8 +36,8 @@ export const SignIn = () => {
     navigator.navigate('signUp')
   }
 
-  const onSubmit = (data: SignInFormData) => {
-    console.log(data)
+  const onSubmit = async (data: SignInFormData) => {
+    await signIn(data.email, data.password)
   }
 
   return (
@@ -100,7 +103,12 @@ export const SignIn = () => {
           />
         </Box>
 
-        <Button title={'Entrar'} mt={'$11'} onPress={handleSubmit(onSubmit)} />
+        <Button
+          mt={'$11'}
+          title={'Entrar'}
+          isLoading={isSigningIn}
+          onPress={handleSubmit(onSubmit)}
+        />
       </VStack>
 
       <Center p={'$10'} flex={1} rowGap={'$4'} bg={'$gray7'}>

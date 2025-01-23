@@ -12,6 +12,8 @@ import { config } from './config/gluestack-ui.config'
 
 import { Routes } from '@routes/index'
 
+import { AuthContextProvider } from '@contexts/AuthContext'
+
 export default function App() {
   const [isFontLoaded] = useFonts({
     Karla_700Bold,
@@ -25,8 +27,9 @@ export default function App() {
         backgroundColor={'transparent'}
         translucent
       />
-
-      {isFontLoaded ? <Routes /> : <Text>Loading...</Text>}
+      <AuthContextProvider>
+        {isFontLoaded ? <Routes /> : <Text>Loading...</Text>}
+      </AuthContextProvider>
     </GluestackUIProvider>
   )
 }
