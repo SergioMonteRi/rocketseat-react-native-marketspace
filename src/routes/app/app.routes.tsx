@@ -5,6 +5,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { Home } from '@screens/Home'
 import { MyAds } from '@screens/MyAds'
 
+import { LogOut } from '@components/LogOut'
+
 import { AppRoutesProps } from './types'
 import { gluestackUIConfig } from '../../../config/gluestack-ui.config'
 
@@ -45,6 +47,21 @@ export const AppRoutes = () => {
         options={{
           tabBarIcon: ({ color }) => (
             <Tag size={24} color={color} width={iconSize} height={iconSize} />
+          ),
+        }}
+      />
+
+      <Screen
+        name="logOut"
+        component={Home}
+        options={{
+          tabBarIcon: () => (
+            <LogOut
+              size={24}
+              width={iconSize}
+              height={iconSize}
+              color={tokens.colors.red300}
+            />
           ),
         }}
       />

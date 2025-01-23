@@ -7,10 +7,15 @@ import { useCustomToast } from '@hooks/useCustomToast'
 import { UserDTO } from '@dtos/UserDTO'
 
 import { AuthContextDataProps, AuthContextProviderProps } from './types'
-import { storageUserGet, storageUserSave } from '@storage/user/storageUser'
+import {
+  storageUserGet,
+  storageUserSave,
+  storageUserRemove,
+} from '@storage/user/storageUser'
 import {
   storageAuthTokenGet,
   storageAuthTokenSave,
+  storageAuthTokenRemove,
 } from '@storage/authToken/storageAuthToken'
 import { api } from '@api/api'
 
@@ -80,13 +85,20 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     }
   }, [userDataAndTokenUpdate])
 
+  const signOut = useCallback(async () => {
+    await storageUserRemove()
+    await storageAuthTokenRemove()
+
+    setUser({} as UserDTO)
+  }, [])
+
   useEffect(() => {
     loadUserData()
   }, [loadUserData])
 
   return (
     <AuthContext.Provider
-      value={{ user, isSigningIn, signIn, isLoadingUserStorageData }}
+      value={{ user, isSigningIn, isLoadingUserStorageData, signIn, signOut }}
     >
       {children}
     </AuthContext.Provider>

@@ -13,6 +13,7 @@ import { config } from './config/gluestack-ui.config'
 import { Routes } from '@routes/index'
 
 import { AuthContextProvider } from '@contexts/AuthContext'
+import { ModalProvider } from '@contexts/ModalContext'
 
 export default function App() {
   const [isFontLoaded] = useFonts({
@@ -27,9 +28,11 @@ export default function App() {
         backgroundColor={'transparent'}
         translucent
       />
-      <AuthContextProvider>
-        {isFontLoaded ? <Routes /> : <Text>Loading...</Text>}
-      </AuthContextProvider>
+      <ModalProvider>
+        <AuthContextProvider>
+          {isFontLoaded ? <Routes /> : <Text>Loading...</Text>}
+        </AuthContextProvider>
+      </ModalProvider>
     </GluestackUIProvider>
   )
 }
