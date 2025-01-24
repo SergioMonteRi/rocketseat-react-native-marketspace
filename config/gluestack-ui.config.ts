@@ -89,6 +89,7 @@ export const gluestackUIConfig = createConfig({
       indigo900: '#312e81',
       blue: '#364D9D',
       blueLight: '#647ac7',
+      blueUltraLight: '#DFE1EA',
       blue50: '#eff6ff',
       blue100: '#dbeafe',
       blue200: '#bfdbfe',

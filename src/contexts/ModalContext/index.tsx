@@ -1,15 +1,10 @@
-import { CustomModal } from '@components/CustomModal'
-import { CustomModalProps } from '@components/CustomModal/types'
 import { Modal } from '@gluestack-ui/themed'
 import { createContext, useCallback, useState } from 'react'
 
-export type ModalContextDataProps = {
-  showModal: (props: CustomModalProps) => void
-}
+import { CustomModal } from '@components/CustomModal'
+import { CustomModalProps } from '@components/CustomModal/types'
 
-export type ModalContextProviderProps = {
-  children: React.ReactNode
-}
+import { ModalContextDataProps, ModalContextProviderProps } from './types'
 
 export const ModalContext = createContext<ModalContextDataProps>(
   {} as ModalContextDataProps,

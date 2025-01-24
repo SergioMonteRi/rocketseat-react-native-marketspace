@@ -1,15 +1,27 @@
 import {
+  InputSlot,
+  InputIcon,
   InputField,
+  FormControl,
   FormControlError,
   FormControlErrorText,
   Input as GlueStackInput,
-  FormControl,
+  Divider,
+  Box,
 } from '@gluestack-ui/themed'
 
 import { InputProps } from './types'
 
 export const Input = (props: InputProps) => {
-  const { errorMessage = null, isReadOnly = false, ...rest } = props
+  const {
+    firstIcon,
+    secondIcon,
+    errorMessage = null,
+    isReadOnly = false,
+    onPressFirstIcon,
+    onPressSecondIcon,
+    ...rest
+  } = props
 
   const isInvalid = !!errorMessage
 
@@ -19,6 +31,8 @@ export const Input = (props: InputProps) => {
         h={'$11'}
         w={'$full'}
         bg={'$gray7'}
+        pl={'$3'}
+        pr={'$4'}
         borderWidth={'$0'}
         borderRadius={'$md'}
         isReadOnly={isReadOnly}
@@ -33,12 +47,29 @@ export const Input = (props: InputProps) => {
         }}
       >
         <InputField
-          px={'$4'}
           color={'$gray1'}
           fontFamily={'$body'}
-          placeholderTextColor={'$4'}
+          placeholderTextColor={'$gray4'}
           {...rest}
         />
+
+        {firstIcon && (
+          <InputSlot onPress={onPressFirstIcon}>
+            <InputIcon color={'$gray4'} as={firstIcon} />
+          </InputSlot>
+        )}
+
+        {firstIcon && secondIcon && (
+          <Box py={'$3'}>
+            <Divider orientation={'vertical'} mx={'$2'} />
+          </Box>
+        )}
+
+        {secondIcon && (
+          <InputSlot onPress={onPressSecondIcon}>
+            <InputIcon color={'$gray4'} as={secondIcon} />
+          </InputSlot>
+        )}
       </GlueStackInput>
 
       <FormControlError>

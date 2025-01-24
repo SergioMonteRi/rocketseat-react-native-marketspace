@@ -39,7 +39,7 @@ export const CustomModal = (props: CustomModalProps) => {
           </Text>
         </ModalBody>
 
-        <ModalFooter rowGap={8}>
+        <ModalFooter rowGap={8} columnGap={'$2'}>
           <Button
             title={'Cancelar'}
             customVariant={'secondary'}

@@ -12,7 +12,7 @@ export const UserPhotoEdit = (props: UserPhotoEditProps) => {
   return (
     <Box>
       <Image
-        alt={'user profile photo tro edit'}
+        alt={'user profile photo to edit'}
         rounded={'$full'}
         borderWidth={'$2'}
         borderColor={'$blueLight'}

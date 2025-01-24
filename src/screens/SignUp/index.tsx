@@ -1,22 +1,25 @@
-import { useState } from 'react'
 import * as FileSystem from 'expo-file-system'
 import * as ImagePicker from 'expo-image-picker'
+
+import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useNavigation } from '@react-navigation/native'
 import { Box, Center, ScrollView, Text, VStack } from '@gluestack-ui/themed'
 
+import { api } from '@api/api'
+
+import { Input } from '@components/Input'
 import { Button } from '@components/Button'
 import { UserPhotoEdit } from '@components/UserPhotoEdit'
+
+import { AuthNavigationRoutesProps } from '@routes/auth/types'
 
 import { signUpSchema } from './formSchema'
 
 import { SignUpFormData } from './type'
 
 import Logo from '@assets/logo.svg'
-import { Input } from '@components/Input'
-import { useNavigation } from '@react-navigation/native'
-import { AuthNavigationRoutesProps } from '@routes/auth/types'
-import { api } from '@api/api'
 
 export const SignUp = () => {
   const navigator = useNavigation<AuthNavigationRoutesProps>()

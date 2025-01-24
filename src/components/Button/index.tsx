@@ -27,6 +27,7 @@ export const Button = (props: ButtonProps) => {
 
   return (
     <GluestackButton
+      flex={1}
       h={'$11'}
       w={'$full'}
       rounded={'$md'}

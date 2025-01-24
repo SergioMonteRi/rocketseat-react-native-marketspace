@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Controller, useForm } from 'react-hook-form'
 import { useNavigation } from '@react-navigation/native'
@@ -17,12 +18,15 @@ import { signInSchema } from './formSchema'
 import Logo from '@assets/logo.svg'
 
 import { gluestackUIConfig } from '../../../config/gluestack-ui.config'
+import { Eye, EyeClosed } from 'lucide-react-native'
 
 export const SignIn = () => {
   const backGroundColor = gluestackUIConfig.tokens.colors.gray7
 
   const { isSigningIn, signIn } = useAuth()
   const navigator = useNavigation<AuthNavigationRoutesProps>()
+
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false)
 
   const {
     control,
@@ -31,6 +35,10 @@ export const SignIn = () => {
   } = useForm<SignInFormData>({
     resolver: yupResolver(signInSchema),
   })
+
+  const togglePasswordVisibility = () => {
+    setIsPasswordVisible((prevState) => !prevState)
+  }
 
   const handleNewAccount = () => {
     navigator.navigate('signUp')
@@ -97,7 +105,9 @@ export const SignIn = () => {
                 placeholder="Senha"
                 onChangeText={onChange}
                 errorMessage={errors.password?.message}
-                secureTextEntry
+                firstIcon={isPasswordVisible ? Eye : EyeClosed}
+                onPressFirstIcon={togglePasswordVisibility}
+                secureTextEntry={!isPasswordVisible}
               />
             )}
           />
