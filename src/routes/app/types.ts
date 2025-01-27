@@ -1,4 +1,4 @@
-import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 
 export type AppRoutesProps = {
   home: undefined
@@ -7,4 +7,4 @@ export type AppRoutesProps = {
   createAd: undefined
 }
 
-export type AppNavigationRouteProps = BottomTabNavigationProp<AppRoutesProps>
+export type AppNavigationRouteProps = NativeStackNavigationProp<AppRoutesProps>
