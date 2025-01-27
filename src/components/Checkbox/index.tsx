@@ -12,7 +12,13 @@ export const Checkbox = (props: CheckboxProps) => {
   const { label, ...rest } = props
 
   return (
-    <GluestackCheckbox size="md" isInvalid={false} isDisabled={false} {...rest}>
+    <GluestackCheckbox
+      size="md"
+      isInvalid={false}
+      isDisabled={false}
+      aria-label=""
+      {...rest}
+    >
       <CheckboxIndicator bg={'$gray7'} borderColor={'$gray4'}>
         <CheckboxIcon as={CheckIcon} color={'$gray7'} bgColor="$blueLight" />
       </CheckboxIndicator>
