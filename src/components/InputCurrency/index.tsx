@@ -1,8 +1,7 @@
+import React from 'react'
 import {
-  Box,
-  Divider,
+  Text,
   InputSlot,
-  InputIcon,
   InputField,
   FormControl,
   FormControlError,
@@ -10,20 +9,33 @@ import {
   Input as GlueStackInput,
 } from '@gluestack-ui/themed'
 
-import { InputProps } from './types'
+import { InputCurrencyProps } from './types'
 
-export const Input = (props: InputProps) => {
+export const InputCurrency = (props: InputCurrencyProps) => {
   const {
-    firstIcon,
-    secondIcon,
-    errorMessage = null,
+    value,
+    onChangeText,
     isReadOnly = false,
-    onPressFirstIcon,
-    onPressSecondIcon,
+    errorMessage = null,
+    placeholder = 'Valor do produto',
     ...rest
   } = props
 
   const isInvalid = !!errorMessage
+
+  // Formata o valor para Real (R$)
+  const formatCurrency = (value: string) => {
+    const numericValue = value.replace(/\D/g, '')
+    const formatted = new Intl.NumberFormat('pt-BR', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(Number(numericValue) / 100)
+    return formatted
+  }
+
+  const handleChangeText = (text: string) => {
+    onChangeText && onChangeText(formatCurrency(text)) // Atualiza o estado com o valor formatado
+  }
 
   return (
     <FormControl isInvalid={isInvalid} mb={'$1'}>
@@ -46,32 +58,23 @@ export const Input = (props: InputProps) => {
           borderColor: isInvalid ? '$red500' : '$gray3',
         }}
       >
+        <InputSlot>
+          <Text>R$</Text>
+        </InputSlot>
+
         <InputField
+          value={value}
           color={'$gray1'}
           fontFamily={'$body'}
+          keyboardType="numeric"
+          placeholder={placeholder}
           placeholderTextColor={'$gray4'}
+          onChangeText={handleChangeText}
           {...rest}
         />
-
-        {firstIcon && (
-          <InputSlot onPress={onPressFirstIcon}>
-            <InputIcon color={'$gray4'} as={firstIcon} />
-          </InputSlot>
-        )}
-
-        {firstIcon && secondIcon && (
-          <Box py={'$3'}>
-            <Divider orientation={'vertical'} mx={'$2'} />
-          </Box>
-        )}
-
-        {secondIcon && (
-          <InputSlot onPress={onPressSecondIcon}>
-            <InputIcon color={'$gray4'} as={secondIcon} />
-          </InputSlot>
-        )}
       </GlueStackInput>
 
+      {/* Mensagem de Erro */}
       <FormControlError>
         <FormControlErrorText color={'$red500'}>
           {errorMessage}

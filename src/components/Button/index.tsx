@@ -1,5 +1,7 @@
 import {
+  Icon,
   Text,
+  HStack,
   ButtonSpinner,
   Button as GluestackButton,
 } from '@gluestack-ui/themed'
@@ -7,7 +9,13 @@ import {
 import { ButtonProps } from './types'
 
 export const Button = (props: ButtonProps) => {
-  const { title, isLoading = false, customVariant = 'primary', ...rest } = props
+  const {
+    title,
+    icon,
+    isLoading = false,
+    customVariant = 'primary',
+    ...rest
+  } = props
 
   const backgroundColor =
     customVariant === 'secondary'
@@ -27,7 +35,6 @@ export const Button = (props: ButtonProps) => {
 
   return (
     <GluestackButton
-      flex={1}
       h={'$11'}
       w={'$full'}
       rounded={'$md'}
@@ -40,9 +47,12 @@ export const Button = (props: ButtonProps) => {
       {isLoading ? (
         <ButtonSpinner />
       ) : (
-        <Text color={textColor} fontFamily={'$heading'}>
-          {title}
-        </Text>
+        <HStack columnGap={'$2'} alignItems={'center'}>
+          {icon && <Icon as={icon} color={textColor} />}
+          <Text color={textColor} fontFamily={'$heading'}>
+            {title}
+          </Text>
+        </HStack>
       )}
     </GluestackButton>
   )

@@ -4,6 +4,7 @@ export type AppRoutesProps = {
   home: undefined
   myAds: undefined
   logOut: undefined
+  createAd: undefined
 }
 
 export type AppNavigationRouteProps = BottomTabNavigationProp<AppRoutesProps>

@@ -7,7 +7,10 @@ import { MyAds } from '@screens/MyAds'
 
 import { LogOut } from '@components/LogOut'
 
+import { HomeStack } from './HomeStack/home.routes'
+
 import { AppRoutesProps } from './types'
+
 import { gluestackUIConfig } from '../../../config/gluestack-ui.config'
 
 const { Navigator, Screen } = createBottomTabNavigator<AppRoutesProps>()
@@ -34,7 +37,7 @@ export const AppRoutes = () => {
     >
       <Screen
         name="home"
-        component={Home}
+        component={HomeStack}
         options={{
           tabBarIcon: ({ color }) => (
             <House size={24} color={color} width={iconSize} height={iconSize} />
