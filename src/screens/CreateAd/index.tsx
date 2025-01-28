@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
+import { useNavigation } from '@react-navigation/native'
 import { Box, Text, VStack, ScrollView, HStack } from '@gluestack-ui/themed'
 
 import { Input } from '@components/Input'
@@ -12,10 +13,17 @@ import { BackHeader } from './components/BackHeader'
 import { InputCurrency } from '@components/InputCurrency'
 import { PhotoSelector } from './components/PhotoSelector'
 
+import { AppNavigationRouteProps } from '@routes/app/types'
+
+import { AdDetailsRouteParams } from '@screens/AdDetails/types'
+
 import { CreateAdFormData } from './types'
-import { api } from '@api/api'
 
 export const CreateAd = () => {
+  const navigaton = useNavigation<AppNavigationRouteProps>()
+
+  const [photosURI, setPhotosURI] = useState<string[]>([])
+
   const {
     control,
     handleSubmit,
@@ -27,14 +35,27 @@ export const CreateAd = () => {
   })
 
   const onSubmit = async (data: CreateAdFormData) => {
-    const formattedPrice = data.price.replace(/\./g, '').replace(',', '.')
-
-    const formattedPayload = {
-      ...data,
-      price: Number(formattedPrice),
+    const adDetailsRouteParams: AdDetailsRouteParams = {
+      adName: data.name,
+      adPrice: data.price,
+      adIsNew: data.is_new,
+      adImages: photosURI,
+      adDescription: data.description,
+      adIsNegotiable: data.accept_trade,
+      adPaymentMethods: data.payment_methods,
+      isPreview: true,
     }
 
-    await api.post('/products', formattedPayload)
+    navigaton.navigate('adDetails', adDetailsRouteParams)
+
+    // const formattedPrice = data.price.replace(/\./g, '').replace(',', '.')
+
+    // const formattedPayload = {
+    //   ...data,
+    //   price: Number(formattedPrice),
+    // }
+
+    // await api.post('/products', formattedPayload)
   }
 
   return (
@@ -47,7 +68,7 @@ export const CreateAd = () => {
         <BackHeader />
 
         <Box mt={'$5'}>
-          <PhotoSelector />
+          <PhotoSelector setPhotosURI={setPhotosURI} photosURI={photosURI} />
         </Box>
 
         <Box rowGap={'$2'} mt={'$5'}>

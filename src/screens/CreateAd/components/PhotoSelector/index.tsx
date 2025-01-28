@@ -1,6 +1,5 @@
 import * as ImagePicker from 'expo-image-picker'
 
-import { useState } from 'react'
 import { Plus, X } from 'lucide-react-native'
 import { TouchableOpacity } from 'react-native'
 import {
@@ -12,8 +11,10 @@ import {
   ScrollView,
 } from '@gluestack-ui/themed'
 
-export const PhotoSelector = () => {
-  const [photosURI, setPhotosURI] = useState<string[]>([])
+import { PhotoSelectorProps } from './types'
+
+export const PhotoSelector = (props: PhotoSelectorProps) => {
+  const { photosURI, setPhotosURI } = props
 
   const handePhotoRemove = (photoURI: string) => {
     setPhotosURI((photosURI) => photosURI.filter((photo) => photo !== photoURI))

@@ -7,6 +7,7 @@ import {
   Karla_400Regular,
 } from '@expo-google-fonts/karla'
 import { GluestackUIProvider, Text } from '@gluestack-ui/themed'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 
 import { config } from './config/gluestack-ui.config'
 
@@ -22,17 +23,19 @@ export default function App() {
   })
 
   return (
-    <GluestackUIProvider config={config}>
-      <StatusBar
-        barStyle="dark-content"
-        backgroundColor={'transparent'}
-        translucent
-      />
-      <ModalProvider>
-        <AuthContextProvider>
-          {isFontLoaded ? <Routes /> : <Text>Loading...</Text>}
-        </AuthContextProvider>
-      </ModalProvider>
-    </GluestackUIProvider>
+    <GestureHandlerRootView>
+      <GluestackUIProvider config={config}>
+        <StatusBar
+          barStyle="dark-content"
+          backgroundColor={'transparent'}
+          translucent
+        />
+        <ModalProvider>
+          <AuthContextProvider>
+            {isFontLoaded ? <Routes /> : <Text>Loading...</Text>}
+          </AuthContextProvider>
+        </ModalProvider>
+      </GluestackUIProvider>
+    </GestureHandlerRootView>
   )
 }

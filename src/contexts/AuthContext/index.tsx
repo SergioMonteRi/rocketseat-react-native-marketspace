@@ -77,8 +77,6 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
       const userData = await storageUserGet()
       const tokenData = await storageAuthTokenGet()
 
-      console.log(userData, tokenData)
-
       if (userData && tokenData) {
         userDataAndTokenUpdate(userData, tokenData.token)
       }
