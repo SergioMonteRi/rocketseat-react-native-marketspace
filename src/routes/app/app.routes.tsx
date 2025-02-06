@@ -12,9 +12,9 @@ const { Navigator, Screen } = createNativeStackNavigator<AppRoutesProps>()
 export const AppRoutes = () => {
   return (
     <Navigator screenOptions={{ headerShown: false }}>
+      <Screen name="home" component={HomeStack} />
       <Screen name="createAd" component={CreateAd} />
       <Screen name="adDetails" component={AdDetails} />
-      <Screen name="home" component={HomeStack} />
     </Navigator>
   )
 }

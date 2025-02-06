@@ -30,6 +30,8 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   const [isSigningIn, setIsSigningIn] = useState(false)
   const [isLoadingUserStorageData, setIsLoadingUserStorageData] = useState(true)
 
+  console.log(api.defaults.headers.common.Authorization)
+
   const userDataAndTokenUpdate = useCallback((user: UserDTO, token: string) => {
     api.defaults.headers.common.Authorization = `Bearer ${token}`
 
