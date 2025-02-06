@@ -1,12 +1,8 @@
-type PaymentMethod = 'boleto' | 'pix' | 'cash' | 'card' | 'deposit'
+import { CreateAdFormData } from '@screens/CreateAd/types'
+import { PhotoFile } from '@utils/types'
 
 export type AdDetailsRouteParams = {
-  adName: string
-  adPrice: string
-  adIsNew: boolean
-  adImages: string[]
-  adDescription: string
-  adIsNegotiable: boolean
-  adPaymentMethods: PaymentMethod[]
   isPreview?: boolean
+  adImages: PhotoFile[]
+  adData: CreateAdFormData
 }

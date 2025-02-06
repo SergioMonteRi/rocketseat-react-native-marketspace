@@ -1,4 +1,6 @@
+import { PhotoFile } from '@utils/types'
+
 export type PhotoSelectorProps = {
-  photosURI: string[]
-  setPhotosURI: React.Dispatch<React.SetStateAction<string[]>>
+  photosFile: PhotoFile[]
+  setPhotosFile: React.Dispatch<React.SetStateAction<PhotoFile[]>>
 }

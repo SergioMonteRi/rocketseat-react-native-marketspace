@@ -1,5 +1,3 @@
-import * as ImagePicker from 'expo-image-picker'
-
 import { Plus, X } from 'lucide-react-native'
 import { TouchableOpacity } from 'react-native'
 import {
@@ -11,36 +9,14 @@ import {
   ScrollView,
 } from '@gluestack-ui/themed'
 
+import { usePhoto } from '@hooks/usePhoto'
+
 import { PhotoSelectorProps } from './types'
 
 export const PhotoSelector = (props: PhotoSelectorProps) => {
-  const { photosURI, setPhotosURI } = props
+  const { photosFile, setPhotosFile } = props
 
-  const handePhotoRemove = (photoURI: string) => {
-    setPhotosURI((photosURI) => photosURI.filter((photo) => photo !== photoURI))
-  }
-
-  const handleImageSelection = async () => {
-    try {
-      const selectedPhotos = await ImagePicker.launchImageLibraryAsync({
-        quality: 1,
-        aspect: [4, 4],
-        mediaTypes: ['images'],
-        allowsMultipleSelection: true,
-        selectionLimit: 3,
-      })
-
-      if (selectedPhotos.canceled) {
-        return
-      }
-
-      const selectedPhotosURI = selectedPhotos.assets.map((photo) => photo.uri)
-
-      setPhotosURI(selectedPhotosURI)
-    } catch (error) {
-      console.error(error)
-    }
-  }
+  const { handePhotoRemove, handleImageSelection } = usePhoto()
 
   return (
     <Box rowGap={'$2'}>
@@ -64,8 +40,8 @@ export const PhotoSelector = (props: PhotoSelectorProps) => {
         }}
         horizontal
       >
-        {photosURI.map((photoURI) => (
-          <Box key={photoURI}>
+        {photosFile.map((photoFile) => (
+          <Box key={photoFile.uri}>
             <Image
               w={'$24'}
               h={'$24'}
@@ -73,7 +49,7 @@ export const PhotoSelector = (props: PhotoSelectorProps) => {
               borderWidth={1}
               alt={'Product photo'}
               borderColor={'$gray4'}
-              source={{ uri: photoURI }}
+              source={{ uri: photoFile.uri }}
             />
             <Pressable
               w={'$5'}
@@ -85,14 +61,14 @@ export const PhotoSelector = (props: PhotoSelectorProps) => {
               position={'absolute'}
               alignItems={'center'}
               justifyContent={'center'}
-              onPress={() => handePhotoRemove(photoURI)}
+              onPress={() => handePhotoRemove(photoFile.uri, setPhotosFile)}
             >
               <Icon as={X} color={'$gray7'} size={'sm'} />
             </Pressable>
           </Box>
         ))}
 
-        <TouchableOpacity onPress={handleImageSelection}>
+        <TouchableOpacity onPress={() => handleImageSelection(setPhotosFile)}>
           <Box
             w={'$24'}
             h={'$24'}

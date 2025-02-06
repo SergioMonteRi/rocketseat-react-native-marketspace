@@ -17,12 +17,14 @@ import { AppNavigationRouteProps } from '@routes/app/types'
 
 import { AdDetailsRouteParams } from '@screens/AdDetails/types'
 
+import { PaymentMethod, PhotoFile } from '@utils/types'
+
 import { CreateAdFormData } from './types'
 
 export const CreateAd = () => {
   const navigaton = useNavigation<AppNavigationRouteProps>()
 
-  const [photosURI, setPhotosURI] = useState<string[]>([])
+  const [photosFile, setPhotosFile] = useState<PhotoFile[]>([])
 
   const {
     control,
@@ -31,31 +33,18 @@ export const CreateAd = () => {
   } = useForm<CreateAdFormData>({
     defaultValues: {
       payment_methods: [],
+      accept_trade: false,
     },
   })
 
   const onSubmit = async (data: CreateAdFormData) => {
     const adDetailsRouteParams: AdDetailsRouteParams = {
-      adName: data.name,
-      adPrice: data.price,
-      adIsNew: data.is_new,
-      adImages: photosURI,
-      adDescription: data.description,
-      adIsNegotiable: data.accept_trade,
-      adPaymentMethods: data.payment_methods,
+      adData: data,
       isPreview: true,
+      adImages: photosFile,
     }
 
     navigaton.navigate('adDetails', adDetailsRouteParams)
-
-    // const formattedPrice = data.price.replace(/\./g, '').replace(',', '.')
-
-    // const formattedPayload = {
-    //   ...data,
-    //   price: Number(formattedPrice),
-    // }
-
-    // await api.post('/products', formattedPayload)
   }
 
   return (
@@ -68,7 +57,10 @@ export const CreateAd = () => {
         <BackHeader />
 
         <Box mt={'$5'}>
-          <PhotoSelector setPhotosURI={setPhotosURI} photosURI={photosURI} />
+          <PhotoSelector
+            photosFile={photosFile}
+            setPhotosFile={setPhotosFile}
+          />
         </Box>
 
         <Box rowGap={'$2'} mt={'$5'}>
@@ -162,7 +154,7 @@ export const CreateAd = () => {
             render={({ field }) => {
               const { value, onChange } = field
 
-              const handleCheck = (method: string) => {
+              const handleCheck = (method: PaymentMethod) => {
                 if (value.includes(method)) {
                   onChange(value.filter((item) => item !== method))
                 } else {
