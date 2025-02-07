@@ -8,6 +8,7 @@ export type AppRoutesProps = {
   logOut: undefined
   createAd: undefined
   adDetails: { adId: string }
+  myAdDetails: { adId: string }
   adPreview: AdDetailsRouteParams
 }
 

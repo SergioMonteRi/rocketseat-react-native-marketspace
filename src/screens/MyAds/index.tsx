@@ -1,6 +1,7 @@
 import { Plus } from 'lucide-react-native'
 import { useEffect, useState } from 'react'
 import { ActivityIndicator } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
 import {
   Icon,
   Text,
@@ -15,11 +16,17 @@ import { useAd } from '@hooks/useAd'
 import { AdDetailsDTO } from '@dtos/AdDTO'
 
 import { AdCard } from '@components/Ad/AdCard'
+import { AppNavigationRouteProps } from '@routes/app/types'
 
 export const MyAds = () => {
+  const navigator = useNavigation<AppNavigationRouteProps>()
   const { userAdsList, handleGetUserAdsList } = useAd()
 
   const [isRefreshing, setIsRefreshing] = useState(false)
+
+  const handleMyAdDetailsNavigation = (ad: AdDetailsDTO) => {
+    navigator.navigate('myAdDetails', { adId: ad.id })
+  }
 
   const handleRefresh = async () => {
     setIsRefreshing(true)
@@ -35,7 +42,12 @@ export const MyAds = () => {
     <FlatList
       data={isRefreshing ? [] : userAdsList}
       keyExtractor={(item) => (item as AdDetailsDTO).id}
-      renderItem={({ item }) => <AdCard adItem={item as AdDetailsDTO} />}
+      renderItem={({ item }) => (
+        <AdCard
+          adItem={item as AdDetailsDTO}
+          onPress={() => handleMyAdDetailsNavigation(item as AdDetailsDTO)}
+        />
+      )}
       ListHeaderComponent={() => (
         <VStack rowGap={'$4'} mt={'$10'}>
           <HStack justifyContent={'center'} alignItems={'center'}>
