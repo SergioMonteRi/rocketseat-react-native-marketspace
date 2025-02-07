@@ -18,7 +18,7 @@ export const CustomToast = (props: CustomToastProps) => {
       mt={'$10'}
       action={type}
       nativeID={`toast-${id}`}
-      bgColor={type === 'success' ? '$green400' : '$red400'}
+      bgColor={type === 'success' ? '$green500' : '$red400'}
     >
       <VStack space={'xs'} w={'$full'}>
         <Pressable alignSelf={'flex-end'} onPress={onClose}>

@@ -16,7 +16,14 @@ import { Button } from '@components/Button'
 import { CustomModalProps } from './types'
 
 export const CustomModal = (props: CustomModalProps) => {
-  const { title, description, onClose, onConfirm, onDismiss } = props
+  const {
+    title,
+    description,
+    onConfirmBtnTitle = 'Sair',
+    onClose,
+    onConfirm,
+    onDismiss,
+  } = props
 
   return (
     <>
@@ -47,7 +54,7 @@ export const CustomModal = (props: CustomModalProps) => {
           />
 
           <Button
-            title={'Sair'}
+            title={onConfirmBtnTitle}
             customVariant={'primary'}
             onPress={onConfirm}
           />

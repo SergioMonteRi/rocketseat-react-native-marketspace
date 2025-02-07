@@ -47,10 +47,11 @@ export const ModalProvider = ({ children }: ModalContextProviderProps) => {
       <Modal isOpen={isModalOpen && !!modalData} onClose={handleDismissModal}>
         <CustomModal
           title={modalData.title}
+          description={modalData.description}
+          onConfirmBtnTitle={modalData.onConfirmBtnTitle}
           onClose={handleCloseModal}
           onConfirm={handleOnConfirm}
           onDismiss={handleDismissModal}
-          description={modalData.description}
         />
       </Modal>
 

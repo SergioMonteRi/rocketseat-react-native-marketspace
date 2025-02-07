@@ -2,18 +2,19 @@ import { useCallback, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 
 import {
+  fetchAdsList,
   fetchAdCreate,
   fetchAdDetails,
-  fetchAdSaveImages,
-  fetchAdsList,
   fetchUserAdsList,
+  fetchAdSaveImages,
+  fetchAdToggleActivation,
 } from '@services/ad'
 
 import { PaymentMethod, PhotoFile } from '@utils/types'
 
 import { useCustomToast } from '@hooks/useCustomToast'
 
-import { AdByUserDTO, AdDetailsDTO, AdItemListDTO } from '@dtos/AdDTO'
+import { AdDetailsDTO, AdItemListDTO } from '@dtos/AdDTO'
 
 import { CreateAdFormData } from '@screens/CreateAd/types'
 
@@ -23,9 +24,9 @@ export const useAd = () => {
   const { showToast } = useCustomToast()
   const navigator = useNavigation<AppNavigationRouteProps>()
 
-  const [adsList, setAdsList] = useState<AdItemListDTO[]>([])
   const [adImages, setAdImages] = useState<PhotoFile[]>([])
-  const [userAdsList, setUserAdsList] = useState<AdByUserDTO[]>([])
+  const [adsList, setAdsList] = useState<AdItemListDTO[]>([])
+  const [userAdsList, setUserAdsList] = useState<AdDetailsDTO[]>([])
   const [adDetails, setAdDetails] = useState<AdDetailsDTO>({} as AdDetailsDTO)
   const [paymentMethodsKeys, setPaymentMethodsKeys] = useState<PaymentMethod[]>(
     [],
@@ -35,6 +36,8 @@ export const useAd = () => {
   const [isLoadingCreateAd, setIsLoadingCreateAd] = useState(false)
   const [isLoadingAdDetails, setIsLoadingAdDetails] = useState(false)
   const [isLoadingUserAdsList, setIsLoadingUserAdsList] = useState(false)
+  const [isLoadingToggleAdActivation, setIsLoadingToggleAdActivation] =
+    useState(false)
 
   const handleCreateAd = useCallback(
     async (adData: CreateAdFormData, adPhotos: PhotoFile[]) => {
@@ -153,6 +156,35 @@ export const useAd = () => {
     }
   }, [showToast])
 
+  const handleToggleAdActivation = useCallback(
+    async (adId: string, adActiveState: boolean) => {
+      try {
+        setIsLoadingToggleAdActivation(true)
+
+        console.log('Ad active state 1', adId, adActiveState)
+
+        await fetchAdToggleActivation(adId, adActiveState)
+
+        console.log('Ad active state', adId, adActiveState)
+
+        showToast({
+          type: 'success',
+          title: `Anúncio ${adActiveState ? 'reativado' : 'desativado'} com sucesso!`,
+        })
+      } catch (error) {
+        showToast({
+          error,
+          type: 'error',
+          title:
+            'Não foi possível inativar o anúncio, tente novamente mais tarde',
+        })
+      } finally {
+        setIsLoadingToggleAdActivation(false)
+      }
+    },
+    [showToast],
+  )
+
   return {
     adsList,
     adImages,
@@ -163,9 +195,11 @@ export const useAd = () => {
     isLoadingCreateAd,
     isLoadingAdDetails,
     isLoadingUserAdsList,
+    isLoadingToggleAdActivation,
     handleCreateAd,
     handleGetAdsList,
     handleGetAdDetails,
     handleGetUserAdsList,
+    handleToggleAdActivation,
   }
 }

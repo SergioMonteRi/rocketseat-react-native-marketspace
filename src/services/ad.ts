@@ -1,6 +1,6 @@
 import { api } from '@api/api'
 
-import { AdByUserDTO, AdDetailsDTO, AdDTO, AdItemListDTO } from '@dtos/AdDTO'
+import { AdDetailsDTO, AdDTO, AdItemListDTO } from '@dtos/AdDTO'
 
 import { CreateAdFormData } from '@screens/CreateAd/types'
 
@@ -36,7 +36,14 @@ export const fetchAdDetails = async (adId: string) => {
 }
 
 export const fetchUserAdsList = async () => {
-  const { data } = await api.get<AdByUserDTO[]>('/users/products')
+  const { data } = await api.get<AdDetailsDTO[]>('/users/products')
 
   return data
+}
+
+export const fetchAdToggleActivation = async (
+  adId: string,
+  adActiveState: boolean,
+) => {
+  await api.patch(`/products/${adId}`, { is_active: adActiveState })
 }

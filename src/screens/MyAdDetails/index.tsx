@@ -35,8 +35,10 @@ export const MyAdDetails = () => {
     user,
     price,
     is_new,
+    is_active,
     description,
     accept_trade,
+    id: adId,
     name: adName,
   } = adDetails
 
@@ -87,7 +89,7 @@ export const MyAdDetails = () => {
         </VStack>
       </ScrollView>
 
-      <Footer />
+      <Footer adId={adId} isActive={is_active} />
     </VStack>
   )
 }
