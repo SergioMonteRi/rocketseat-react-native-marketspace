@@ -40,11 +40,10 @@ export const CreateAd = () => {
   const onSubmit = async (data: CreateAdFormData) => {
     const adDetailsRouteParams: AdDetailsRouteParams = {
       adData: data,
-      isPreview: true,
       adImages: photosFile,
     }
 
-    navigaton.navigate('adDetails', adDetailsRouteParams)
+    navigaton.navigate('adPreview', adDetailsRouteParams)
   }
 
   return (

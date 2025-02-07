@@ -7,8 +7,8 @@ export type AppRoutesProps = {
   myAds: undefined
   logOut: undefined
   createAd: undefined
-  adPreview: { adId: string }
-  adDetails: AdDetailsRouteParams
+  adDetails: { adId: string }
+  adPreview: AdDetailsRouteParams
 }
 
 export type AppNavigationRouteProps = NativeStackNavigationProp<AppRoutesProps>

@@ -1,11 +1,10 @@
 /* eslint-disable camelcase */
-import React, { useEffect } from 'react'
 import { Phone } from 'lucide-react-native'
+import React, { useEffect, useState } from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { Box, Text, HStack, VStack, ScrollView } from '@gluestack-ui/themed'
 
 import { useAd } from '@hooks/useAd'
-import { useAuth } from '@hooks/useAuth'
 
 import { formatToBRLNumber } from '@utils/formatters'
 
@@ -33,21 +32,35 @@ export const AdDetails = () => {
   const navigation = useNavigation<AppNavigationRouteProps>()
   const routeParams = useRoute().params as AdDetailsRouteParams
 
+  const [userAdOwner, setUserAdOwner] = useState<{
+    name: string
+    avatar: string
+  }>()
+
   const {
-    user: { name: userName },
-  } = useAuth()
+    user,
+    price,
+    is_new,
+    description,
+    accept_trade,
+    name: adName,
+  } = adDetails
+
+  const handleBackToHome = () => {
+    navigation.navigate('home')
+  }
+
+  useEffect(() => {
+    if (user) {
+      setUserAdOwner({ name: user.name, avatar: user.avatar })
+    }
+  }, [user])
 
   useEffect(() => {
     if (routeParams.adId) {
       handleGetAdDetails(routeParams.adId)
     }
   }, [handleGetAdDetails, routeParams.adId])
-
-  const { price, is_new, description, accept_trade, name: adName } = adDetails
-
-  const handleBackToHome = () => {
-    navigation.navigate('home')
-  }
 
   if (isLoadingAdDetails) {
     return <ScreenLoader />
@@ -66,7 +79,9 @@ export const AdDetails = () => {
         <AdPhotosCarousel adImages={adImages} />
 
         <Box p={'$6'} pb={'$0'} rowGap={'$2'}>
-          <AdUserData name={userName} />
+          {userAdOwner && (
+            <AdUserData name={userAdOwner.name} avatar={userAdOwner.avatar} />
+          )}
         </Box>
 
         <VStack p={'$6'} rowGap={'$2'}>

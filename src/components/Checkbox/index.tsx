@@ -16,7 +16,7 @@ export const Checkbox = (props: CheckboxProps) => {
       size="md"
       isInvalid={false}
       isDisabled={false}
-      aria-label=""
+      aria-label="Payment method"
       {...rest}
     >
       <CheckboxIndicator bg={'$gray7'} borderColor={'$gray4'}>

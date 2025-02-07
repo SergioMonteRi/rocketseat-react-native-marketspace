@@ -7,7 +7,8 @@ import { formatToBRLNumber } from '@utils/formatters'
 import { AdInfoProps } from './types'
 
 export const AdInfo = (props: AdInfoProps) => {
-  const { adName, accept_trade, description, is_new, price } = props
+  const { adName, accept_trade, description, is_new, price, formattedPrice } =
+    props
 
   return (
     <VStack rowGap={'$2'}>
@@ -36,7 +37,7 @@ export const AdInfo = (props: AdInfoProps) => {
             R$
           </Text>
           <Text fontSize={'$xl'} color={'$blueLight'} fontFamily={'$heading'}>
-            {formatToBRLNumber(price)}
+            {formattedPrice ?? formatToBRLNumber(price)}
           </Text>
         </HStack>
       </HStack>

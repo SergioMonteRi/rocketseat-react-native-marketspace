@@ -14,7 +14,7 @@ export const AdCard = (props: AdCardProps) => {
   const { avatar } = user
 
   return (
-    <VStack mb={'$6'} flex={1} w={'auto'} maxWidth={'47%'}>
+    <VStack mb={'$6'} flex={1} w={'auto'} maxWidth={'48%'}>
       <TouchableOpacity {...rest}>
         <Box>
           <Image

@@ -76,7 +76,7 @@ export const Home = () => {
         flexGrow: 1,
         paddingBottom: 64,
       }}
-      columnWrapperStyle={{ justifyContent: 'space-between', columnGap: 24 }}
+      columnWrapperStyle={{ justifyContent: 'space-between', columnGap: 20 }}
       showsVerticalScrollIndicator={false}
     />
   )
