@@ -1,6 +1,6 @@
 import { api } from '@api/api'
 
-import { AdDTO, AdItemListDTO } from '@dtos/AdDTO'
+import { AdDetailsDTO, AdDTO, AdItemListDTO } from '@dtos/AdDTO'
 
 import { CreateAdFormData } from '@screens/CreateAd/types'
 
@@ -25,6 +25,14 @@ export const fetchAdSaveImages = async (imagesForm: FormData) => {
 
 export const fetchAdsList = async () => {
   const { data } = await api.get<AdItemListDTO[]>('/products')
+
+  return data
+}
+
+export const fetchAdDetails = async (adId: string) => {
+  console.log('fetchAdDetails', adId)
+
+  const { data } = await api.get<AdDetailsDTO>(`/products/${adId}`)
 
   return data
 }

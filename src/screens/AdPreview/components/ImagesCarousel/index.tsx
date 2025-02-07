@@ -8,11 +8,14 @@ import Carousel, {
 } from 'react-native-reanimated-carousel'
 
 import { ImagesCarouselProps } from './types'
+import { api } from '@api/api'
 
 const windowWidth = Dimensions.get('window').width
 
 export const ImagesCarousel = (props: ImagesCarouselProps) => {
   const { adImages } = props
+
+  console.log('adImages', adImages)
 
   const carouselRef = useRef<ICarouselInstance>(null)
   const progress = useSharedValue<number>(0)
@@ -38,7 +41,13 @@ export const ImagesCarousel = (props: ImagesCarouselProps) => {
             w={'$full'}
             resizeMode={'cover'}
             alt={'Product photo'}
-            source={{ uri: adImages[index].uri }}
+            source={
+              adImages[index].type
+                ? { uri: adImages[index].uri }
+                : {
+                    uri: `${api.defaults.baseURL}/images/${adImages[index].uri}`,
+                  }
+            }
           />
         )}
       />

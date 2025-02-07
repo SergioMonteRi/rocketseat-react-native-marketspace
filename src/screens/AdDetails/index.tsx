@@ -1,175 +1,116 @@
 /* eslint-disable camelcase */
-import React from 'react'
-import { ArrowLeft } from 'lucide-react-native'
+import React, { useEffect } from 'react'
+import { Phone } from 'lucide-react-native'
 import { useNavigation, useRoute } from '@react-navigation/native'
-import {
-  Box,
-  Text,
-  HStack,
-  Center,
-  VStack,
-  ScrollView,
-} from '@gluestack-ui/themed'
+import { Box, Text, HStack, VStack, ScrollView } from '@gluestack-ui/themed'
 
 import { useAd } from '@hooks/useAd'
 import { useAuth } from '@hooks/useAuth'
 
+import { formatToBRLNumber } from '@utils/formatters'
+
 import { Button } from '@components/Button'
-import { ImagesCarousel } from './components/ImagesCarousel'
-import { PaymentMethods } from './components/PaymentMethods'
-import { UserProfilePhoto } from '@components/UserProfilePhoto'
+import { AdInfo } from '@components/Ad/AdInfo'
+import { BackHeader } from '@components/BackHeader'
+import { AdUserData } from '@components/Ad/AdUserData'
+import { ScreenLoader } from '@components/ScreenLoader'
+import { AdPaymentMethods } from '@components/Ad/AdPaymentMethods'
+import { AdPhotosCarousel } from '@components/Ad/AdPhotosCarousel'
 
 import { AppNavigationRouteProps } from '@routes/app/types'
 
 import { AdDetailsRouteParams } from './types'
-import { ScreenLoader } from '@components/ScreenLoader'
 
 export const AdDetails = () => {
-  const { isLoadingCreateAd, handleCreateAd } = useAd()
+  const {
+    adImages,
+    adDetails,
+    paymentMethodsKeys,
+    isLoadingAdDetails,
+    handleGetAdDetails,
+  } = useAd()
+
   const navigation = useNavigation<AppNavigationRouteProps>()
   const routeParams = useRoute().params as AdDetailsRouteParams
 
   const {
-    user: { name },
+    user: { name: userName },
   } = useAuth()
 
-  const { adData, adImages, isPreview } = routeParams
+  useEffect(() => {
+    if (routeParams.adId) {
+      handleGetAdDetails(routeParams.adId)
+    }
+  }, [handleGetAdDetails, routeParams.adId])
 
-  const {
-    price,
-    is_new,
-    description,
-    accept_trade,
-    payment_methods,
-    name: adName,
-  } = adData
+  const { price, is_new, description, accept_trade, name: adName } = adDetails
 
-  const handleBackNavigation = () => {
-    navigation.navigate('createAd')
+  const handleBackToHome = () => {
+    navigation.navigate('home')
   }
 
-  const handlePublishAd = async () => {
-    await handleCreateAd(adData, adImages)
+  if (isLoadingAdDetails) {
+    return <ScreenLoader />
   }
 
   return (
-    <>
-      {isLoadingCreateAd && <ScreenLoader />}
+    <VStack flex={1}>
+      <ScrollView
+        contentContainerStyle={{
+          flexGrow: 1,
+          paddingBottom: 128,
+        }}
+      >
+        <BackHeader onPress={handleBackToHome} />
 
-      <VStack>
-        <ScrollView
-          contentContainerStyle={{
-            flexGrow: 1,
-            paddingBottom: 128,
-          }}
-        >
-          {isPreview && (
-            <VStack w={'$full'} bgColor={'$blueLight'} pt={'$16'} pb={'$4'}>
-              <Center>
-                <Text color={'$gray7'} fontFamily={'$heading'} fontSize={'$md'}>
-                  Pré visualização do anúncio
-                </Text>
-                <Text color={'$gray7'} fontFamily={'$body'} fontSize={'$sm'}>
-                  É assim que seu produto vai aparecer!
-                </Text>
-              </Center>
-            </VStack>
-          )}
+        <AdPhotosCarousel adImages={adImages} />
 
-          <ImagesCarousel adImages={adImages} />
+        <Box p={'$6'} pb={'$0'} rowGap={'$2'}>
+          <AdUserData name={userName} />
+        </Box>
 
-          <VStack p={'$6'} rowGap={'$6'}>
-            <HStack columnGap={'$2'} alignItems={'center'}>
-              <UserProfilePhoto w={'$6'} h={'$6'} />
-              <Text fontFamily={'$body'} fontSize={'$sm'} color={'$gray1'}>
-                {name}
-              </Text>
-            </HStack>
+        <VStack p={'$6'} rowGap={'$2'}>
+          <AdInfo
+            price={price}
+            adName={adName}
+            is_new={is_new}
+            description={description}
+            accept_trade={accept_trade}
+          />
 
-            <VStack rowGap={'$2'}>
-              <Box
-                px={'$2'}
-                py={'$1'}
-                rounded={'$xl'}
-                bgColor={'$gray5'}
-                alignSelf={'flex-start'}
-              >
-                <Text fontFamily={'$heading'} fontSize={'$xs'} color={'$gray2'}>
-                  {is_new ? 'NOVO' : 'USADO'}
-                </Text>
-              </Box>
+          <AdPaymentMethods adPaymentMethods={paymentMethodsKeys} />
+        </VStack>
+      </ScrollView>
 
-              <HStack
-                mt={'$1'}
-                alignItems={'baseline'}
-                justifyContent={'space-between'}
-              >
-                <Text fontFamily={'$heading'} fontSize={'$xl'} color={'$gray1'}>
-                  {adName}
-                </Text>
-                <HStack alignItems={'baseline'}>
-                  <Text color={'$blueLight'} fontFamily={'$heading'}>
-                    R$
-                  </Text>
-                  <Text
-                    fontSize={'$xl'}
-                    color={'$blueLight'}
-                    fontFamily={'$heading'}
-                  >
-                    {price}
-                  </Text>
-                </HStack>
-              </HStack>
-
-              <Text fontFamily={'$body'} fontSize={'$sm'} color={'$gray2'}>
-                {description}
-              </Text>
-
-              <HStack columnGap={'$2'} mt={'$2'}>
-                <Text fontFamily={'$heading'} fontSize={'$sm'} color={'$gray2'}>
-                  Aceita troca?
-                </Text>
-                <Text fontFamily={'$body'} fontSize={'$sm'} color={'$gray2'}>
-                  {accept_trade ? 'Sim' : 'Não'}
-                </Text>
-              </HStack>
-
-              <VStack rowGap={'$2'} mt={'$2'}>
-                <Text fontFamily={'$heading'} fontSize={'$sm'} color={'$gray2'}>
-                  Meios de pagamento
-                </Text>
-
-                <VStack columnGap={'$2'} rowGap={'$2'}>
-                  <PaymentMethods adPaymentMethods={payment_methods} />
-                </VStack>
-              </VStack>
-            </VStack>
-          </VStack>
-        </ScrollView>
-
-        {isPreview && (
-          <HStack
-            p={'$6'}
-            pb={'$7'}
-            bottom={0}
-            columnGap={'$3'}
-            bgColor={'$gray7'}
-            position={'absolute'}
-          >
-            <Box flex={1}>
-              <Button
-                icon={ArrowLeft}
-                title={'Voltar e editar'}
-                customVariant={'secondary'}
-                onPress={handleBackNavigation}
-              />
-            </Box>
-            <Box flex={1}>
-              <Button title={'Publicar'} onPress={handlePublishAd} />
-            </Box>
+      <HStack
+        p={'$6'}
+        pb={'$7'}
+        bottom={0}
+        bgColor={'$gray7'}
+        position={'absolute'}
+      >
+        <Box flex={1}>
+          <HStack alignItems={'flex-end'} h={'$full'} columnGap={'$1'}>
+            <Text color={'$blueLight'} fontFamily={'$heading'} mb={'$1'}>
+              R$
+            </Text>
+            <Text
+              fontSize={'$2xl'}
+              color={'$blueLight'}
+              fontFamily={'$heading'}
+            >
+              {formatToBRLNumber(price)}
+            </Text>
           </HStack>
-        )}
-      </VStack>
-    </>
+        </Box>
+        <Box flex={1}>
+          <Button
+            icon={Phone}
+            title={'Entrar em contato'}
+            onPress={handleBackToHome}
+          />
+        </Box>
+      </HStack>
+    </VStack>
   )
 }

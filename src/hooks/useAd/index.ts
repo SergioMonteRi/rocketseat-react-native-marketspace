@@ -1,25 +1,37 @@
 import { useCallback, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 
-import { fetchAdCreate, fetchAdSaveImages, fetchAdsList } from '@services/ad'
+import {
+  fetchAdCreate,
+  fetchAdDetails,
+  fetchAdSaveImages,
+  fetchAdsList,
+} from '@services/ad'
 
-import { PhotoFile } from '@utils/types'
+import { PaymentMethod, PhotoFile } from '@utils/types'
 
 import { useCustomToast } from '@hooks/useCustomToast'
+
+import { AdDetailsDTO, AdItemListDTO } from '@dtos/AdDTO'
 
 import { CreateAdFormData } from '@screens/CreateAd/types'
 
 import { AppNavigationRouteProps } from '@routes/app/types'
-import { AdItemListDTO } from '@dtos/AdDTO'
 
 export const useAd = () => {
   const { showToast } = useCustomToast()
   const navigator = useNavigation<AppNavigationRouteProps>()
 
   const [adsList, setAdsList] = useState<AdItemListDTO[]>([])
+  const [adImages, setAdImages] = useState<PhotoFile[]>([])
+  const [adDetails, setAdDetails] = useState<AdDetailsDTO>({} as AdDetailsDTO)
+  const [paymentMethodsKeys, setPaymentMethodsKeys] = useState<PaymentMethod[]>(
+    [],
+  )
 
-  const [isLoadingCreateAd, setIsLoadingCreateAd] = useState(false)
   const [isLoadingAdsList, setIsLoadingAdsList] = useState(false)
+  const [isLoadingCreateAd, setIsLoadingCreateAd] = useState(false)
+  const [isLoadingAdDetails, setIsLoadingAdDetails] = useState(false)
 
   const handleCreateAd = useCallback(
     async (adData: CreateAdFormData, adPhotos: PhotoFile[]) => {
@@ -77,11 +89,60 @@ export const useAd = () => {
     }
   }, [showToast])
 
+  const handleGetAdDetails = useCallback(
+    async (adId: string) => {
+      try {
+        setIsLoadingAdDetails(true)
+
+        const adDetails = await fetchAdDetails(adId)
+
+        if (adDetails?.payment_methods) {
+          const paymentMethods: PaymentMethod[] = adDetails.payment_methods.map(
+            (method) => method.key as PaymentMethod,
+          )
+
+          setPaymentMethodsKeys(paymentMethods)
+        }
+
+        if (adDetails?.product_images) {
+          const adImages: PhotoFile[] = adDetails.product_images.map(
+            (image) => ({
+              type: '',
+              name: image.id,
+              uri: image.path,
+            }),
+          )
+
+          setAdImages(adImages)
+        }
+
+        console.log('adDetails', adDetails)
+
+        setAdDetails(adDetails)
+      } catch (error) {
+        showToast({
+          error,
+          type: 'error',
+          title:
+            'Não foi possível carregar os detalhes do anúncio, tente novamente mais tarde',
+        })
+      } finally {
+        setIsLoadingAdDetails(false)
+      }
+    },
+    [showToast],
+  )
+
   return {
     adsList,
+    adImages,
+    adDetails,
     isLoadingAdsList,
     isLoadingCreateAd,
+    isLoadingAdDetails,
+    paymentMethodsKeys,
     handleCreateAd,
     handleGetAdsList,
+    handleGetAdDetails,
   }
 }

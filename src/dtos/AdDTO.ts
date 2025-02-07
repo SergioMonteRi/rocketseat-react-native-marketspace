@@ -21,3 +21,8 @@ export type AdItemListDTO = {
   user: { avatar: string }
   payment_methods: { key: string; name: string }[]
 }
+
+export type AdDetailsDTO = AdItemListDTO & {
+  description: string
+  user: { name: string; email: string; phone: string }
+}

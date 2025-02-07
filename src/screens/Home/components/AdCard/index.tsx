@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+import { TouchableOpacity } from 'react-native'
 import { Box, HStack, Image, Text, VStack } from '@gluestack-ui/themed'
 
 import { api } from '@api/api'
@@ -6,16 +7,15 @@ import { api } from '@api/api'
 import { formatToBRLNumber } from '@utils/formatters'
 
 import { AdCardProps } from './types'
-import { TouchableOpacity } from 'react-native'
 
 export const AdCard = (props: AdCardProps) => {
-  const { adItem } = props
+  const { adItem, ...rest } = props
   const { name, price, product_images, is_new, user } = adItem
   const { avatar } = user
 
   return (
     <VStack mb={'$6'} flex={1} w={'auto'} maxWidth={'47%'}>
-      <TouchableOpacity>
+      <TouchableOpacity {...rest}>
         <Box>
           <Image
             w={'$full'}

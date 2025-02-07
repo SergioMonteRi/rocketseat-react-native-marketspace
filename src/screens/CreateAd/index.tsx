@@ -15,7 +15,7 @@ import { PhotoSelector } from './components/PhotoSelector'
 
 import { AppNavigationRouteProps } from '@routes/app/types'
 
-import { AdDetailsRouteParams } from '@screens/AdDetails/types'
+import { AdDetailsRouteParams } from '@screens/AdPreview/types'
 
 import { PaymentMethod, PhotoFile } from '@utils/types'
 

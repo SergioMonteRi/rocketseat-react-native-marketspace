@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react'
 import { ActivityIndicator } from 'react-native'
-import { VStack, Box, Text, FlatList } from '@gluestack-ui/themed'
+import { useNavigation } from '@react-navigation/native'
 import { Search, SlidersVertical } from 'lucide-react-native'
+import { VStack, Box, Text, FlatList } from '@gluestack-ui/themed'
 
 import { useAd } from '@hooks/useAd'
 
 import { AdItemListDTO } from '@dtos/AdDTO'
+
+import { AppNavigationRouteProps } from '@routes/app/types'
 
 import { Input } from '@components/Input'
 import { AdCard } from './components/AdCard'
@@ -13,6 +16,7 @@ import { HomeHeader } from './components/HomeHeader'
 import { HomeActiveAdsCard } from './components/HomeActiveAdsCard'
 
 export const Home = () => {
+  const navigator = useNavigation<AppNavigationRouteProps>()
   const { adsList, handleGetAdsList } = useAd()
 
   const [refreshing, setRefreshing] = useState(false)
@@ -23,6 +27,12 @@ export const Home = () => {
     setRefreshing(false)
   }
 
+  const handleNavigateToAdDetails = (adItem: AdItemListDTO) => {
+    const { id } = adItem
+
+    navigator.navigate('adDetails', { adId: id })
+  }
+
   useEffect(() => {
     handleGetAdsList()
   }, [handleGetAdsList])
@@ -31,7 +41,12 @@ export const Home = () => {
     <FlatList
       data={refreshing ? [] : adsList}
       keyExtractor={(item) => (item as AdItemListDTO).id}
-      renderItem={({ item }) => <AdCard adItem={item as AdItemListDTO} />}
+      renderItem={({ item }) => (
+        <AdCard
+          adItem={item as AdItemListDTO}
+          onPress={() => handleNavigateToAdDetails(item as AdItemListDTO)}
+        />
+      )}
       ListHeaderComponent={() => (
         <VStack rowGap={'$8'} mb={'$4'}>
           <HomeHeader />
