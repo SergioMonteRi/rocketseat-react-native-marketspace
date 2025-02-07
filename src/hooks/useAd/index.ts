@@ -6,13 +6,14 @@ import {
   fetchAdDetails,
   fetchAdSaveImages,
   fetchAdsList,
+  fetchUserAdsList,
 } from '@services/ad'
 
 import { PaymentMethod, PhotoFile } from '@utils/types'
 
 import { useCustomToast } from '@hooks/useCustomToast'
 
-import { AdDetailsDTO, AdItemListDTO } from '@dtos/AdDTO'
+import { AdByUserDTO, AdDetailsDTO, AdItemListDTO } from '@dtos/AdDTO'
 
 import { CreateAdFormData } from '@screens/CreateAd/types'
 
@@ -24,6 +25,7 @@ export const useAd = () => {
 
   const [adsList, setAdsList] = useState<AdItemListDTO[]>([])
   const [adImages, setAdImages] = useState<PhotoFile[]>([])
+  const [userAdsList, setUserAdsList] = useState<AdByUserDTO[]>([])
   const [adDetails, setAdDetails] = useState<AdDetailsDTO>({} as AdDetailsDTO)
   const [paymentMethodsKeys, setPaymentMethodsKeys] = useState<PaymentMethod[]>(
     [],
@@ -32,6 +34,7 @@ export const useAd = () => {
   const [isLoadingAdsList, setIsLoadingAdsList] = useState(false)
   const [isLoadingCreateAd, setIsLoadingCreateAd] = useState(false)
   const [isLoadingAdDetails, setIsLoadingAdDetails] = useState(false)
+  const [isLoadingUserAdsList, setIsLoadingUserAdsList] = useState(false)
 
   const handleCreateAd = useCallback(
     async (adData: CreateAdFormData, adPhotos: PhotoFile[]) => {
@@ -116,8 +119,6 @@ export const useAd = () => {
           setAdImages(adImages)
         }
 
-        console.log('adDetails', adDetails)
-
         setAdDetails(adDetails)
       } catch (error) {
         showToast({
@@ -133,16 +134,38 @@ export const useAd = () => {
     [showToast],
   )
 
+  const handleGetUserAdsList = useCallback(async () => {
+    try {
+      setIsLoadingUserAdsList(true)
+
+      const userAdsList = await fetchUserAdsList()
+
+      setUserAdsList(userAdsList)
+    } catch (error) {
+      showToast({
+        error,
+        type: 'error',
+        title:
+          'Não foi possível carregar os anúncios, tente novamente mais tarde',
+      })
+    } finally {
+      setIsLoadingUserAdsList(false)
+    }
+  }, [showToast])
+
   return {
     adsList,
     adImages,
     adDetails,
+    userAdsList,
+    paymentMethodsKeys,
     isLoadingAdsList,
     isLoadingCreateAd,
     isLoadingAdDetails,
-    paymentMethodsKeys,
+    isLoadingUserAdsList,
     handleCreateAd,
     handleGetAdsList,
     handleGetAdDetails,
+    handleGetUserAdsList,
   }
 }

@@ -71,7 +71,6 @@ export const Home = () => {
       onRefresh={handleRefresh}
       p={'$6'}
       numColumns={2}
-      columnGap={20}
       contentContainerStyle={{
         flexGrow: 1,
         paddingBottom: 64,

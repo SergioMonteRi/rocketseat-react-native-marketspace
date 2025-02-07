@@ -42,6 +42,7 @@ export const HomeStack = () => {
           ),
         }}
       />
+
       <Screen
         name="myAds"
         component={MyAds}
