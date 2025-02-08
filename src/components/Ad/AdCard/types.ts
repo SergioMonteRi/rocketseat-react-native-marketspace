@@ -1,8 +1,8 @@
 import { ComponentProps } from 'react'
 import { TouchableOpacity } from 'react-native'
 
-import { AdItemListDTO } from '@dtos/AdDTO'
+import { AdDetailsDTO } from '@dtos/AdDTO'
 
 export type AdCardProps = ComponentProps<typeof TouchableOpacity> & {
-  adItem: AdItemListDTO
+  adItem: AdDetailsDTO
 }

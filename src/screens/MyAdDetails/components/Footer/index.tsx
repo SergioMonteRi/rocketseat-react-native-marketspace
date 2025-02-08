@@ -15,8 +15,6 @@ import { FooterProps } from './types'
 export const Footer = (props: FooterProps) => {
   const { adId, isActive } = props
 
-  console.log('ad active status 2', isActive)
-
   const { showModal } = useCustomModal()
   const navigator = useNavigation<AppNavigationRouteProps>()
   const { isLoadingToggleAdActivation, handleToggleAdActivation } = useAd()
